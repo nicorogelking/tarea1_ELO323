@@ -1,0 +1,112 @@
+# ============================================================
+# .gitignore - Tarea 1 ELO323 / IPD438
+# NOTA: las imagenes (PNG/JPG) SI se versionan a proposito,
+# porque son las figuras del enunciado y del informe.
+# Aqui solo se excluyen archivos temporales de LaTeX,
+# binarios pesados y material sensible.
+# ============================================================
+
+# ---------- Temporales de compilacion LaTeX ----------
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.synctex(busy)
+*.bbl
+*.blg
+*.bcf
+*.run.xml
+*.nav
+*.snm
+*.vrb
+*.idx
+*.ilg
+*.ind
+*.glo
+*.gls
+*.acn
+*.acr
+*.alg
+*.xdv
+*.dvi
+
+# ---------- Salidas de compilacion ----------
+# (descomente si NO quiere versionar el PDF generado)
+# *.pdf
+_build/
+out/
+build/
+
+# ---------- Imagenes de maquinas virtuales / GNS3 (muy pesadas) ----------
+*.qcow2
+*.qcow
+*.vmdk
+*.vdi
+*.iso
+*.img
+*.ova
+*.gns3project
+*.gns3_appliance
+*_backup/
+snapshots/
+
+# ---------- Capturas y multimedia pesada ----------
+*.pcap
+*.pcapng
+*.mp4
+*.mkv
+*.avi
+
+# ---------- Credenciales y material sensible ----------
+.env
+.env.*
+*.pem
+*.key
+*.ppk
+*.p12
+*.pfx
+*.crt
+id_rsa
+id_rsa.*
+id_ed25519
+id_ed25519.*
+known_hosts
+*.kdbx
+secrets/
+credentials*
+*_secret*
+*password*
+*.token
+
+# ---------- Configuracion de router / dispositivos ----------
+# (pueden contener claves enable / SIP en texto plano)
+running-config*
+startup-config*
+*.cfg.bak
+
+# ---------- Sistema operativo ----------
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+.DS_Store
+.Spotlight-V100
+.Trashes
+
+# ---------- Editores / IDE ----------
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.#*
+\#*#
+
+# ---------- Herramientas locales ----------
+.claude/

@@ -1,21 +1,23 @@
-# Tarea 1 — ELO323 / IPD438: Emulando Redes con GNS3
+# Tarea ELO323 / IPD438: Emulando Redes con GNS3
 
-Material de la **Tarea 1** del curso *Redes de Computadores II* (ELO323 / IPD438),
+Material de la **tarea** del curso *Redes de Computadores II* (ELO323 / IPD438),
 Departamento de Electrónica, Universidad Técnica Federico Santa María.
 Revisión 2º Semestre 2026.
 
 Este repositorio contiene el **fuente LaTeX del enunciado y del Material de Ayuda**
 de la tarea, junto con todas las figuras de topologías GNS3 asociadas.
 
+> La asignatura contempla **una sola tarea**, compuesta de varias partes. Por eso
+> el material no lleva número correlativo.
+
 ---
 
 ## Propósito del repositorio
 
-Este es el **repositorio del ramo** para la Tarea 1 de *Redes de Computadores II*.
+Este es el **repositorio del ramo** para la tarea de *Redes de Computadores II*.
 Su objetivo es doble:
 
-1. **Almacenar** el enunciado y su material de apoyo en un único lugar versionado,
-   en lugar de repartirlo en archivos sueltos o adjuntos de correo.
+1. **Almacenar** el enunciado y su material de apoyo en un único lugar versionado.
 2. **Actualizarlo de forma simple, manteniendo el historial de versiones.**
    Cada semestre el material cambia de manos y de contenido: la VM pasó de Lubuntu
    a Alpine, el softphone de Zoiper a `pjsua`, GNS3 y VirtualBox suben de versión,
@@ -25,6 +27,9 @@ Su objetivo es doble:
 
 Por eso se versiona el **fuente LaTeX y las figuras**, no solo el PDF final:
 editar `main.tex` y volver a compilar es la forma de publicar una nueva revisión.
+
+Este repositorio es la **fuente de trabajo** del material. Los PDF que reciben los
+estudiantes se publican en **AULA**, como pide la UTFSM para el material de curso.
 
 ### Cómo actualizar el material
 
@@ -53,14 +58,14 @@ Recomendaciones para mantener el historial legible:
 
 | Carpeta | Documento | Descripción |
 |---|---|---|
-| `TAREA1_ELO323/` | **Enunciado** (298 líneas) | Las 4 preguntas de la tarea, con sus 7 figuras de topología. |
-| `AYUDA_PARA_LA_TAREA1/` | **Material de Ayuda** (660 líneas) | Guía técnica completa referenciada desde el enunciado: instalación, configuración y uso de todas las herramientas. |
+| `TAREA_ELO323/` | **Enunciado** (298 líneas) | Las 4 preguntas de la tarea, con sus 7 figuras de topología. |
+| `AYUDA_PARA_LA_TAREA/` | **Material de Ayuda** (660 líneas) | Guía técnica completa referenciada desde el enunciado: instalación, configuración y uso de todas las herramientas. |
 
 Ambos documentos comparten portada, estilos y logos institucionales.
 
 ---
 
-## El enunciado — `TAREA1_ELO323/`
+## El enunciado — `TAREA_ELO323/`
 
 La tarea se resuelve íntegramente en **GNS3**, usando una máquina virtual liviana
 basada en **Alpine Linux** (`alpine-elo323.qcow2`, ~595 MB, contraseña `elo323`)
@@ -76,7 +81,7 @@ preparada para el curso. Trae preinstalados `iperf`, `VLC` (modo consola, `cvlc`
 
 ---
 
-## El Material de Ayuda — `AYUDA_PARA_LA_TAREA1/`
+## El Material de Ayuda — `AYUDA_PARA_LA_TAREA/`
 
 Documento de referencia con índice, que cubre todo lo necesario para resolver la
 tarea. Estructura:
@@ -122,7 +127,7 @@ del material, no artefactos generados.
 
 El nombre de cada archivo indica su rol: `figN_<pregunta>_<contenido>`.
 
-### `TAREA1_ELO323/images/`
+### `TAREA_ELO323/images/`
 
 | Archivo | Figura | Usada en | Muestra |
 |---|---|---|---|
@@ -151,11 +156,11 @@ Requiere una distribución LaTeX con `babel-spanish`, `tcolorbox`, `listings`,
 
 ```bash
 # Enunciado
-cd TAREA1_ELO323
+cd TAREA_ELO323
 latexmk -pdf main.tex
 
 # Material de Ayuda (tiene índice: necesita al menos dos pasadas)
-cd ../AYUDA_PARA_LA_TAREA1
+cd ../AYUDA_PARA_LA_TAREA
 latexmk -pdf main.tex
 ```
 

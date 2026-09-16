@@ -29,7 +29,7 @@ Por eso se versiona el **fuente LaTeX y las figuras**, no solo el PDF final:
 editar `main.tex` y volver a compilar es la forma de publicar una nueva revisión.
 
 Este repositorio es la **fuente de trabajo** del material. Los PDF que reciben los
-estudiantes se publican en **AULA**, como pide la UTFSM para el material de curso.
+estudiantes se publican en **AULA**.
 
 ### Cómo actualizar el material
 

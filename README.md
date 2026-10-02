@@ -74,10 +74,10 @@ preparada para el curso. Trae preinstalados `iperf`, `VLC` (modo consola, `cvlc`
 
 | # | Tema | Puntaje |
 |---|---|---|
-| 1 | Familiarización con redes LAN — dos LANs, router Cisco C3725, DHCP, `ping` | 25 pts |
-| 2 | Enlaces ideales y reales — NETem (10 Mbps / 200 ms / 10 % pérdida), intervalos de confianza, `iperf` | 25 pts |
-| 3 | RTP — broadcast y unicast de video con VLC, SSRC, efectos de *delay*, *jitter* y ancho de banda | 20 pts |
-| 4 | VoIP — router Cisco 3725 como servidor SIP (CME), softphone `pjsua`, calidad de voz bajo degradación | 30 pts |
+| 1 | Familiarización con redes LAN — dos LANs, router Cisco C3725, DHCP, `ping` | 20 pts |
+| 2 | Enlaces ideales y reales — NETem (5 Mbps / 300 ms / 12 % pérdida), intervalos de confianza, `iperf` | 25 pts |
+| 3 | RTP — broadcast y unicast de video con VLC, SSRC, efectos de *delay*, *jitter* y ancho de banda | 25 pts |
+| 4 | VoIP — servidor SIP (CME) integrado al Cisco 3725, softphone `pjsua`, calidad de voz bajo degradación | 30 pts |
 
 ---
 
@@ -88,25 +88,26 @@ tarea. Estructura:
 
 | Sección | Cubre |
 |---|---|
-| **Cambios principales en esta edición (2026)** | Resumen de todo lo que cambió respecto a revisiones anteriores. |
-| **1. GNS3** | Instalación en Windows y Ubuntu, inicialización, uso básico, importación de proyectos, componentes (VPCS, switch, router, **NETem**, nube), incorporación de appliances, ejecución **sin KVM**, captura de paquetes con Wireshark y creación de VLANs. |
+| **1. GNS3** | Instalación en Windows y Ubuntu, inicialización, uso básico, exportación e importación de proyectos, componentes (VPCS, switch, router, **NETem**, nube), incorporación de appliances, ejecución **sin KVM**, captura de paquetes con Wireshark y creación de VLANs. |
 | **2. Máquina Virtual Alpine Linux** | Qué es Alpine, credenciales y contenido de la imagen, configuración de red manual e importación en GNS3. |
-| **3. Streaming con VLC** | Transmisión y recepción por **RTP** y **RTSP** desde consola (`cvlc`). |
+| **3. Streaming con VLC** | Transmisión por **RTP** y **RTSP** desde consola (`cvlc`) y recepción con VLC o `ffplay`. |
 | **4. iperf** | Medición de throughput cliente/servidor. |
 | **5. Telefonía VoIP con SIP** | Conceptos, preparación del router Cisco 3725, configuración del servidor SIP (**CME**), uso del softphone **`pjsua`**, análisis de la señalización y extracción de las grabaciones de audio. |
-| **6. QEMU** | Crear máquinas virtuales y **montar imágenes** para sacar archivos desde la VM. |
+| **6. QEMU (Quick EMUlator)** | Crear máquinas virtuales y **montar imágenes** para sacar archivos desde la VM. |
 | **7. Recursos** | Tabla de appliances e imágenes descargables (NETem, Alpine ELO323, Cisco 3725) con enlaces y tamaños. |
 | **8. Créditos** | Registro de quién revisó el material cada semestre desde 2017. |
 
-El documento usa tres tipos de caja de color para orientar la lectura:
+El documento usa dos tipos de caja de color para orientar la lectura:
 
-- **Nota** (11) — advertencias y detalles prácticos.
-- **Cambio 2026** (17) — señala explícitamente qué cambió en esta edición, para
-  quien ya conocía el material antiguo.
+- **Nota** (20) — advertencias y detalles prácticos.
 - **Reservado para investigación del estudiante** (4) — puntos que el enunciado
   pide investigar y que el material deliberadamente *no* resuelve.
 
 ### Cambios de esta edición (2026)
+
+Por indicación del profesor, el historial de cambios **no va dentro del Material
+de Ayuda** (el documento se escribe para el estudiante de este año, sin
+referencias a versiones anteriores); se registra solo aquí:
 
 - VM **Lubuntu → Alpine Linux** (`alpine-elo323.qcow2`, ~595 MB, arranca en segundos).
 - Softphone **Zoiper → `pjsua`** (cliente SIP de consola, PJSIP): deja todo el
@@ -139,13 +140,27 @@ El nombre de cada archivo indica su rol: `figN_<pregunta>_<contenido>`.
 | `fig6_p4a_voip_sip_router.png` | 6 | 4.a | Dos Alpine con `pjsua` registradas contra R1 como servidor SIP. |
 | `fig7_p4b_voip_netem_calidad.png` | 7 | 4.b | Misma llamada VoIP, con NETem en el enlace para degradar la calidad. |
 
-### Logos (en ambas carpetas)
+### Logo (en ambas carpetas)
 
-`logo_utfsm.png` y `logo_departamento_electronica.jpg` — portada de ambos documentos.
+`INS_h_color@2x.png` — logo institucional (UTFSM + Departamento de Electrónica) de la portada de ambos documentos.
 
-> El Material de Ayuda tiene un espacio reservado para captura (macro
-> `\figplaceholder`). Al agregar capturas ahí, seguir la misma convención de
-> nombres: `<seccion>_<contenido>.png`.
+### Capturas de GNS3 (Material de Ayuda, secciones 1.3 y 1.4)
+
+Capturas de GNS3 2.2.61 en Windows, anotadas con cuadros rojos numerados que el
+texto referencia como (1), (2), …
+
+| Archivo | Sección | Muestra |
+|---|---|---|
+| `gns3_help_setup_wizard.png` | 1.3 | Menú *Help > Setup Wizard*. |
+| `gns3_wizard_tipo_servidor.png` | 1.3 | Asistente: ejecutar los equipos en la GNS3 VM. |
+| `gns3_wizard_gns3vm.png` | 1.3 | Asistente: VirtualBox, selección y recursos de la GNS3 VM. |
+| `gns3_wizard_resumen.png` | 1.3 | Asistente: resumen y *Finish*. |
+| `gns3_nuevo_proyecto.png` | 1.3 | Diálogo *New project*. |
+| `gns3_interfaz_principal.png` | 1.4 | Ventana principal con sus seis zonas numeradas. |
+
+> Al agregar nuevas capturas, seguir la convención de nombres
+> `<tema>_<contenido>.png`. El Material de Ayuda conserva además la macro
+> `\figplaceholder` para reservar espacio a capturas pendientes.
 
 ---
 

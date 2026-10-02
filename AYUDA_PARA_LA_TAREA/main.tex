@@ -57,8 +57,6 @@
 % ==================== CAJAS DE COLOR ====================
 % Caja para notas generales
 \newtcolorbox{nota}{colback=yellow!8!white, colframe=orange!70!black, title=Nota, fonttitle=\bfseries}
-% Caja para CAMBIOS 2026 (destacado en color, como pidió el profesor)
-\newtcolorbox{cambio2026}{colback=green!6!white, colframe=green!55!black, title=Cambio 2026, fonttitle=\bfseries}
 % Caja para actividades reservadas a la investigación del estudiante
 \newtcolorbox{investigar}{colback=blue!5!white, colframe=blue!55!black, title=Reservado para investigación del estudiante, fonttitle=\bfseries}
 
@@ -81,12 +79,12 @@
 \thispagestyle{empty}
 
 \begin{center}
-    \includegraphics[width=4.9cm]{images/logo_utfsm.png} \hfill \includegraphics[width=5.3cm]{images/logo_departamento_electronica.jpg} \\[1.7cm]
-    \textbf{UNIVERSIDAD TÉCNICA FEDERICO SANTA MARÍA}\\
-    \textbf{DEPARTAMENTO DE ELECTRÓNICA}\\[2.3cm]
+    % Logo institucional (carpeta 'images'); el trim recorta el margen blanco del PNG
+    \includegraphics[width=0.9\textwidth, trim=134 278 134 278, clip]{images/INS_h_color@2x.png} \\[2.5cm]
     {\LARGE \textbf{Material de Ayuda}}\\[0.5cm]
     {\large Tarea ELO323 / IPD438 -- ``Emulando Redes con GNS3''}\\[0.5cm]
-    {\large Redes de Computadores II}\\[2.7cm]
+    {\large Redes de Computadores II}\\[0.3cm]
+    {\large Seminario de Redes de Computadores}\\[2.4cm]
 
     \hspace{3cm}\begin{tabular}{|l|l|}
         \hline
@@ -107,21 +105,6 @@
 \tableofcontents
 \newpage
 
-% ==================== INTRODUCCIÓN / CAMBIOS 2026 ====================
-\section*{Cambios principales en esta edición (2026)}
-\addcontentsline{toc}{section}{Cambios principales en esta edición (2026)}
-
-\begin{cambio2026}
-Esta edición del Material de Ayuda incorpora cambios importantes respecto a versiones anteriores. Los principales se listan a continuación y se detallan, resaltados en verde, a lo largo del documento:
-\begin{itemize}[leftmargin=1.2cm]
-    \item Se reemplaza la máquina virtual \textbf{Lubuntu} por una imagen liviana basada en \textbf{Alpine Linux} (\texttt{alpine-elo323.qcow2}, $\sim$595 MB), que arranca en segundos y trae todas las herramientas preinstaladas.
-    \item Se documenta el uso de \textbf{GNS3 2.2.61} y \textbf{VirtualBox 7.2.16}.
-    \item Se retira la recomendación de \textbf{VMware Workstation} (VMware Workstation Player fue descontinuado por Broadcom).
-    \item Se añade la opción \texttt{-cpu qemu64} en las máquinas QEMU para entornos \textbf{sin KVM} (caso típico de VirtualBox sobre Windows).
-    \item Se añade la sección \textbf{Telefonía VoIP con SIP} (Pregunta 4), usando el router Cisco 3725 como servidor SIP y el softphone de consola \texttt{pjsua}.
-\end{itemize}
-\end{cambio2026}
-
 % ==================== GNS3 ====================
 \section{GNS3}
 
@@ -129,23 +112,27 @@ GNS3 es un \textbf{software emulador de redes} (revisar diferencia entre \href{h
 
 \subsection{Instalación en Windows}
 
-El software de GNS3 se distribuye en la \href{https://www.gns3.com/}{página web de GNS3}. Basta con descargar la versión disponible para \href{https://www.gns3.com/software/download}{Windows} (la página previamente pedirá crear una cuenta), y seguir la \textbf{configuración por defecto del instalador}, sin desmarcar ningún programa pues pueden ser de utilidad en la realización de la tarea. Al concluir la instalación, \textbf{no iniciar el programa hasta terminar los pasos descritos a continuación}.
+El software de GNS3 se distribuye en la \href{https://www.gns3.com/}{página web de GNS3}. Basta con descargar la versión disponible para \href{https://www.gns3.com/software/download}{Windows} (la página previamente pedirá crear una cuenta), y seguir la \textbf{configuración por defecto del instalador}. En la pantalla \textit{Choose Components} el instalador ofrece varios programas adicionales; no todos son necesarios para esta tarea, y omitir los innecesarios deja una instalación más liviana:
 
-\begin{cambio2026}
-Este material fue verificado con \textbf{GNS3 2.2.61} (Windows, Mac y Linux) y \textbf{VirtualBox 7.2.16}. Se recomienda usar estas versiones o superiores compatibles.
-\end{cambio2026}
+\begin{itemize}
+    \item \textbf{Dejar marcados:} \textbf{GNS3} (siempre requerido), \textbf{WinPCAP} o \textbf{Npcap} (requerido por el nodo Nube para comunicarse con la red exterior, Pregunta 3), \textbf{Wireshark} (captura de paquetes en los enlaces), \textbf{Dynamips} (ejecuta el router Cisco 3725), \textbf{VPCS} (terminales de la Pregunta 1) y \textbf{Solar-PuTTY} (consola por defecto para acceder a los equipos).
+    \item \textbf{Se pueden desmarcar:} \textbf{QEMU} (las máquinas QEMU de la tarea se ejecutan dentro de la GNS3 VM), \textbf{TightVNC Viewer} y \textbf{Virt-viewer} (solo sirven para máquinas con interfaz gráfica; la máquina Alpine no tiene), \textbf{Cpulimit} (solo necesario con equipos antiguos como el ASA) e \textbf{Intel HAXM}.
+\end{itemize}
+
+Al concluir la instalación, \textbf{no iniciar el programa hasta terminar los pasos descritos a continuación}.
+
+\begin{nota}
+Este material fue verificado con \textbf{GNS3 2.2.61} (Windows y Linux) y \textbf{VirtualBox 7.2.16}. Se recomienda usar estas versiones o superiores compatibles.
+\end{nota}
 
 Para obtener un \textbf{desempeño razonable} de las máquinas virtuales en Windows, se recomienda utilizar la máquina virtual ofrecida por GNS3, que puede descargarse desde \href{https://gns3.com/software/download-vm}{GNS3 VM}. Es importante que sea de la \textbf{misma versión que la aplicación de GNS3}. Al descomprimir este archivo se obtiene un archivo con extensión \texttt{.ova} que se usará más adelante.
 
 Para continuar con la configuración de la máquina virtual, es necesario descargar e instalar el software \href{https://www.virtualbox.org/wiki/Downloads}{VirtualBox} de Oracle (VirtualBox 7.2.16). Seguir la configuración por defecto del instalador.
 
-\begin{cambio2026}
-En ediciones anteriores se ofrecía también VMware Workstation como alternativa. Sin embargo, \textbf{VMware Workstation Player fue descontinuado por Broadcom}, por lo que este material se centra en \textbf{VirtualBox}. Si el estudiante tiene experiencia con otro virtualizador (por ejemplo, VMware Workstation Pro, hoy gratuito con cuenta Broadcom), puede usarlo teniendo en cuenta las diferencias de configuración.
-\end{cambio2026}
-
 \begin{nota}
-Los desarrolladores de GNS3 recomiendan un hipervisor con virtualización anidada (nested virtualization) para mejor rendimiento. En muchos equipos con VirtualBox sobre Windows, la virtualización anidada (KVM) \textbf{no está disponible}. Esto se aborda en la sección \textit{Ejecución sin KVM}. Sugerencia: en lo posible, considere utilizar Linux para correr GNS3.
+Los desarrolladores de GNS3 recomiendan un hipervisor con virtualización anidada (nested virtualization) para mejor rendimiento. En muchos equipos con VirtualBox sobre Windows, la virtualización anidada (KVM\footnotemark) \textbf{no está disponible}. Esto se aborda en la sección \textit{Ejecución sin KVM}. Sugerencia: en lo posible, considere utilizar Linux para correr GNS3.
 \end{nota}
+\footnotetext{KVM (\textit{Kernel-based Virtual Machine}) es una tecnología de virtualización integrada en el kernel de Linux, que permite a una máquina física actuar como múltiples entornos virtuales aislados, compartiendo el hardware de forma directa y eficiente.}
 
 Concluida la instalación, ejecute VirtualBox, seleccione \textbf{``Archivo $>$ Importar servicio virtualizado''} e importe el archivo \texttt{GNS3 VM.ova} descargado previamente con las características por defecto. De esta forma queda cargada la máquina virtual de GNS3 VM. Concluido este paso, continúe con la \textbf{Inicialización}.
 
@@ -168,29 +155,96 @@ Durante la instalación se consulta por configuraciones específicas; se sugiere
 
 En caso de requerir una \textbf{guía en video}, se recomienda el tutorial \href{https://www.youtube.com/watch?v=PBdHzJOi1Tc}{Tutorial GNS3 Ubuntu}. Para otras distribuciones, el procedimiento es similar cambiando el gestor de paquetes; ver las \href{https://docs.gns3.com/docs/getting-started/installation/linux/}{instrucciones oficiales de GNS3}.
 
-Para el caso de Linux, a diferencia de Windows, \textbf{no será necesario instalar la máquina virtual de GNS3 ni el virtualizador VirtualBox}, debido a que lo solicitado en la tarea es lo suficientemente estable en Linux.
+Para el caso de Linux, a diferencia de Windows, \textbf{no es necesario instalar la máquina virtual de GNS3 ni el virtualizador VirtualBox}, debido a que lo solicitado en la tarea es lo suficientemente estable en Linux.
 
 \subsection{Inicialización}
 
-Al iniciar la aplicación de GNS3, se presentará el asistente de inicialización (en caso de que no aparezca, puede acceder a él en \textit{Help $>$ Setup Wizard}). El primer paso es escoger dónde se correrán los equipos simulados. Si utilizará la máquina virtual de GNS3, escoja la primera opción. Si los ejecutará de manera local, utilice la segunda opción.
+La primera vez que se abre GNS3 se presenta automáticamente el \textbf{asistente de inicialización} (\textit{Setup Wizard}). Si no aparece, o si necesita volver a ejecutarlo más adelante (por ejemplo, para cambiar de servidor), ábralo desde el menú \textbf{Help} de la barra de menús superior (1), opción \textbf{Setup Wizard} (2), como muestra la Figura~\ref{fig:help}.
 
-A continuación, se debe escoger la configuración del servidor de GNS3. No es necesario realizar cambios a la configuración por defecto. Si escogió simular los dispositivos en la máquina virtual (ésta ya debe estar configurada), al seleccionar la opción VirtualBox se detectará automáticamente.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/gns3_help_setup_wizard.png}
+    \caption{Acceso al asistente de inicialización: menú \textit{Help} (1) $>$ \textit{Setup Wizard} (2).}
+    \label{fig:help}
+\end{figure}
 
-Una vez terminado el proceso, se presentará un cuadro de diálogo desde donde puede crear un nuevo proyecto.
+El primer paso del asistente es escoger \textbf{dónde se ejecutarán los equipos simulados} (Figura~\ref{fig:wiz-servidor}). En Windows, seleccione \textit{Run appliances in a virtual machine} (1), que utiliza la GNS3 VM importada en VirtualBox, y presione \textit{Next} (2). En Linux, donde no se usa la GNS3 VM, seleccione en cambio \textit{Run appliances on my local computer}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/gns3_wizard_tipo_servidor.png}
+    \caption{Asistente, paso 1: ejecutar los equipos en la GNS3 VM (1) y continuar (2).}
+    \label{fig:wiz-servidor}
+\end{figure}
+
+A continuación se configura la GNS3 VM (Figura~\ref{fig:wiz-vm}). Seleccione \textbf{VirtualBox} como software de virtualización (1). Si la GNS3 VM fue importada correctamente, aparecerá en el campo \textit{VM name} (2); si no aparece, presione \textit{Refresh}. En los campos \textit{vCPU cores} y \textit{RAM size} se indican los recursos del computador que se asignan a la GNS3 VM; los valores por defecto (2 núcleos y 4096 MB) son suficientes para la tarea. Presione \textit{Next} (3).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/gns3_wizard_gns3vm.png}
+    \caption{Asistente, paso 2: VirtualBox (1), selección y recursos de la GNS3 VM (2) y continuar (3).}
+    \label{fig:wiz-vm}
+\end{figure}
+
+Finalmente, el asistente muestra un resumen de la configuración (1). Verifique que el tipo de servidor sea \textit{GNS3 Virtual Machine} con motor \textit{Virtualbox} y presione \textit{Finish} (2) (Figura~\ref{fig:wiz-resumen}). En el panel \textit{Servers Summary}, a la derecha de la ventana principal, la GNS3 VM debe aparecer con un círculo verde, lo que indica que está encendida y conectada.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/gns3_wizard_resumen.png}
+    \caption{Asistente, paso 3: resumen de la configuración (1) y término del asistente (2).}
+    \label{fig:wiz-resumen}
+\end{figure}
+
+Con GNS3 ya configurado, el siguiente paso es \textbf{crear un proyecto}, que es donde se construye la topología de red. Para ello abra el cuadro de diálogo \textit{Project} de cualquiera de estas dos formas (Figura~\ref{fig:nuevo-proyecto}):
+
+\begin{itemize}
+    \item Desde el menú \textbf{File} (1), opción \textit{New blank project}.
+    \item Presionando el ícono de la \textbf{carpeta} ubicado bajo el menú \textit{File}, en la barra de herramientas (2).
+\end{itemize}
+
+En la pestaña \textit{New project} del cuadro que se abre, ingrese el nombre del proyecto y, si lo desea, su ubicación (3), y presione \textit{OK} (4). Desde este mismo cuadro, con \textit{Open a project from disk}, también se puede abrir un proyecto existente.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/gns3_nuevo_proyecto.png}
+    \caption{Creación de un proyecto nuevo: se abre desde el menú \textit{File} (1) o con el ícono de carpeta (2); luego se ingresan el nombre y la ubicación (3) y se confirma (4).}
+    \label{fig:nuevo-proyecto}
+\end{figure}
 
 \subsection{Uso básico}
 
-Tras crear un proyecto, el panel central de GNS3 muestra la configuración de la topología de red, inicialmente vacía. En la barra lateral se encuentran los ``cajones'' que contienen los componentes disponibles, separados en routers, switches, dispositivos terminales y de seguridad.
+La Figura~\ref{fig:interfaz} muestra la ventana principal de GNS3 con un proyecto que contiene un router y dos VPCS. Sus partes principales son:
 
-Para agregarlos a la red, basta \textbf{arrastrarlos al área de trabajo}. Al soltarlos, si se trabaja con la GNS3 VM, aparecerá una ventana preguntando si desea correr el dispositivo de forma local o en la máquina virtual. Luego se \textbf{conectan los dispositivos} activando la herramienta de ``agregar enlaces'' en la barra lateral. Para comenzar la simulación se presiona el botón correspondiente en la barra superior; cada componente funciona independientemente.
+\begin{enumerate}
+    \item \textbf{Barra de categorías de dispositivos}: cada ícono abre el ``cajón'' de una categoría: routers, switches, dispositivos terminales y dispositivos de seguridad. El último ícono (\textit{All devices}) muestra todos los dispositivos disponibles.
+    \item \textbf{Agregar enlace} (\textit{Add a link}): activa la herramienta para conectar dispositivos con cables.
+    \item \textbf{Cajón de dispositivos}: lista los dispositivos de la categoría seleccionada (en la figura, los routers). Con \textit{New template} se agregan dispositivos nuevos (ver \textit{Incorporación de componentes adicionales}).
+    \item \textbf{Área de trabajo}: lienzo donde se construye la topología de red.
+    \item \textbf{Controles de la simulación}: iniciar (triángulo verde), pausar (amarillo) y detener (rojo) todos los dispositivos del proyecto.
+    \item \textbf{Paneles de resumen}: \textit{Topology Summary} lista los dispositivos del proyecto, su estado (verde encendido, rojo apagado) y la dirección de su consola; \textit{Servers Summary} muestra los servidores disponibles (la GNS3 VM y el computador local) y su uso de CPU y RAM.
+\end{enumerate}
 
-\begin{cambio2026}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/gns3_interfaz_principal.png}
+    \caption{Ventana principal de GNS3: categorías de dispositivos (1), agregar enlace (2), cajón de dispositivos (3), área de trabajo (4), controles de la simulación (5) y paneles de resumen (6).}
+    \label{fig:interfaz}
+\end{figure}
+
+Para agregar un dispositivo a la red, seleccione su categoría (1) y \textbf{arrástrelo desde el cajón (3) hasta el área de trabajo (4)}. Al soltarlo, si se trabaja con la GNS3 VM, puede aparecer una ventana preguntando si se desea ejecutar el dispositivo de forma local o en la máquina virtual. Luego se \textbf{conectan los dispositivos} activando la herramienta de agregar enlaces (2): haga clic en el primer dispositivo, elija la interfaz, y repita en el segundo dispositivo. Para comenzar la simulación se presiona el botón de inicio (5); también es posible iniciar o detener un dispositivo individual haciendo clic derecho sobre él. Para abrir la consola de un dispositivo encendido, haga doble clic sobre él.
+
+\begin{nota}
 Si modifica la configuración de un \textbf{template} (por ejemplo, la RAM o las opciones QEMU de una máquina), los nodos ya existentes en la topología \textbf{conservan la configuración antigua}. Debe \textbf{eliminarlos y volver a arrastrarlos} desde la barra lateral para que tomen la nueva configuración.
-\end{cambio2026}
+\end{nota}
 
-\subsection{Importar Proyectos}
+\subsection{Exportar e Importar Proyectos}
 
-GNS3 permite almacenar proyectos de simulación en un archivo comprimido único (extensión \texttt{.gns3project}), que además de la disposición de los equipos almacena sus configuraciones. Para importar, vaya a \textit{Archivo $>$ Importar Proyecto Portátil}, seleccione el archivo y asigne un nombre y ubicación al proyecto.
+GNS3 permite almacenar proyectos de simulación en un archivo comprimido único (extensión \texttt{.gns3project}), que además de la disposición de los equipos almacena sus configuraciones. Este archivo es el que se adjunta en la entrega de la tarea.
+
+\begin{itemize}
+    \item \textbf{Exportar:} con el proyecto abierto, vaya a \textit{File $>$ Export portable project}, elija la ubicación y el nombre del archivo y confirme. No es necesario incluir las imágenes base de los equipos (opción \textit{Include base images}), lo que mantiene el archivo liviano.
+    \item \textbf{Importar:} vaya a \textit{File $>$ Import portable project}, seleccione el archivo \texttt{.gns3project} y asigne un nombre y ubicación al proyecto.
+\end{itemize}
 
 \subsection{Componentes}
 
@@ -212,17 +266,17 @@ show ip                                        # mostrar configuracion IP
     \item \textbf{Nube (Cloud)}: permite conectar la red a la red exterior por medio de una interfaz de red del equipo. Inicialmente no tiene ninguna interfaz configurada. Para agregarla, entre a \textit{Configure} (clic derecho sobre la nube) y añada la interfaz deseada.
 \end{itemize}
 
-\begin{cambio2026}
+\begin{nota}
 Para la \textbf{Pregunta 3} (envío de video al PC personal) y la \textbf{Pregunta 4} se utiliza la nube conectada a una interfaz de la GNS3 VM en modo \textbf{bridge}. En VirtualBox, agregue a la GNS3 VM un \textbf{Adaptador puente (Bridged)} sobre su interfaz de red (idealmente por \textbf{cable Ethernet}). Dentro de la GNS3 VM ese adaptador aparece como \texttt{eth2}, que es la interfaz que debe seleccionar en la nube. Recuerde poner el \textbf{Modo Promiscuo} del adaptador en ``Permitir Todo''.
-\end{cambio2026}
+\end{nota}
 
 \begin{nota}
 Cuando se desea conectar las PC del entorno virtual de GNS3 con su PC real, es necesario \textbf{desactivar el firewall} (o el antivirus) del host para impedir que bloqueen la comunicación.
 \end{nota}
 
-\begin{cambio2026}
+\begin{nota}
 \textbf{Limitación conocida del bridge sobre Wi-Fi:} el bridging de VirtualBox sobre una interfaz \textbf{inalámbrica} filtra las tramas cuyo origen es una MAC distinta a la del adaptador Wi-Fi. Esto impide que un router Cisco emulado (con su propia MAC) sea alcanzable desde un dispositivo externo (por ejemplo, un celular) a través del Wi-Fi. Para escenarios que requieran alcanzar equipos emulados desde fuera, use \textbf{conexión por cable Ethernet}.
-\end{cambio2026}
+\end{nota}
 
 \subsubsection{Incorporación de componentes adicionales}
 
@@ -236,12 +290,12 @@ Los componentes adicionales a utilizar son:
     \item \textbf{Router Cisco 3725}: posee dos interfaces FastEthernet para comunicar dos redes LAN. Para incorporarlo, despliegue \textit{Browse all devices $>$ +New template $>$ Import an appliance file} y escoja el appliance de ``Cisco 3725''. En el paso de versión, seleccione \textit{Create a new version} con el nombre \texttt{3725\_15.T}.
 \end{itemize}
 
-\begin{cambio2026}
+\begin{nota}
 Para la \textbf{Pregunta 4}, el router Cisco 3725 requiere más recursos de los que trae por defecto. Antes de usarlo, aumente sus recursos en \textit{Edit $>$ Preferences $>$ IOS routers $>$ Cisco 3725 $>$ Edit $>$ Memories and disks}:
 \begin{itemize}[leftmargin=1.2cm]
     \item \textbf{RAM: al menos 256 MB} (para soportar SIP/CME con dos teléfonos).
 \end{itemize}
-\end{cambio2026}
+\end{nota}
 
 \begin{nota}
 Si al importar un componente no se detecta la imagen automáticamente, puede importarla manualmente con el botón \textit{Import}.
@@ -249,14 +303,12 @@ Si al importar un componente no se detecta la imagen automáticamente, puede imp
 
 \subsection{Ejecución sin KVM}
 
-\begin{cambio2026}
 En equipos con \textbf{VirtualBox sobre Windows}, la virtualización anidada (KVM) suele no estar disponible. Sin KVM, las imágenes con kernels modernos pueden no arrancar (\textit{kernel panic: IO-APIC + timer doesn't work}). Para evitarlo:
 \begin{itemize}[leftmargin=1.2cm]
     \item En el template QEMU (\textit{Edit $>$ Preferences $>$ QEMU VMs $>$ [máquina] $>$ Edit $>$ Advanced $>$ Options}) agregue: \texttt{-cpu qemu64}.
     \item La imagen Alpine provista ya está preparada para arrancar sin KVM.
 \end{itemize}
 El componente NETem también puede requerir \texttt{-cpu qemu64}. Sin KVM el rendimiento es menor; puede ser necesario reintentar el arranque de algún nodo.
-\end{cambio2026}
 
 \subsection{Captura de Paquetes}
 
@@ -274,21 +326,17 @@ Para que Wireshark decodifique los paquetes RTP, habilite la opción \texttt{rtp
 
 \subsection{Creación de VLAN en Ethernet Switch}
 
-El switch Ethernet de GNS3 permite la creación de VLANs y puertos troncales de forma sencilla. Haga clic derecho sobre el switch y seleccione \textit{Configure}. Se abrirá una ventana con los puertos existentes; por defecto todos pertenecen a la VLAN 1. Para cambiar la VLAN de un puerto, seleccione el número y edítelo. En el campo \textit{Type} existen tres modos: \textit{access} (modo común, una sola VLAN por puerto), \textit{dot1q} (modo troncal, permite todas las VLANs) y \textit{qinq}. Para almacenar los cambios, haga clic en \textit{Add}.
+El switch Ethernet de GNS3 permite la creación de VLANs y puertos troncales de forma sencilla. Haga clic derecho sobre el switch y seleccione \textit{Configure}. Se abrirá una ventana con los puertos existentes; por defecto todos pertenecen a la VLAN 1. Para cambiar la VLAN de un puerto, seleccione el número y edítelo. En el campo \textit{Type} existen tres modos: \textit{access} (modo común, una sola VLAN por puerto), \textit{dot1q} (modo troncal, permite todas las VLANs) y \textit{qinq} (encapsulación IEEE 802.1ad o ``Q-in-Q'': agrega una segunda etiqueta VLAN sobre tramas que ya vienen etiquetadas, lo que permite, por ejemplo, que un proveedor transporte las VLANs de varios clientes por su red asignando una VLAN propia a cada cliente). Para almacenar los cambios, haga clic en \textit{Add}.
 
 % ==================== ALPINE ====================
 \section{Máquina Virtual Alpine Linux}
 
-\begin{cambio2026}
-Esta edición reemplaza la antigua máquina Lubuntu por una imagen liviana basada en \textbf{Alpine Linux} (\texttt{alpine-elo323.qcow2}).
-\end{cambio2026}
-
 \subsection{¿Qué es Alpine Linux?}
 
-Alpine Linux es una distribución de Linux orientada a la seguridad, la simplicidad y la eficiencia de recursos. Está construida sobre \texttt{musl libc} y BusyBox, lo que la hace extremadamente compacta. Es muy utilizada en contenedores (Docker) y en entornos donde el tamaño y la velocidad de arranque son críticos. Sus principales ventajas para esta tarea son:
+\href{https://alpinelinux.org/}{Alpine Linux} es una distribución de Linux orientada a la seguridad, la simplicidad y la eficiencia de recursos. Está construida sobre \texttt{musl libc}\footnote{\texttt{musl} es una implementación liviana de la biblioteca estándar de C: \url{https://musl.libc.org/}} y BusyBox\footnote{BusyBox reúne en un único ejecutable versiones reducidas de las utilidades de Unix más comunes (\texttt{ls}, \texttt{cp}, \texttt{sh}, etc.): \url{https://busybox.net/}}, lo que la hace extremadamente compacta. Es muy utilizada en contenedores (Docker) y en entornos donde el tamaño y la velocidad de arranque son críticos. Sus principales ventajas para esta tarea son:
 
 \begin{itemize}
-    \item \textbf{Muy liviana}: la imagen completa pesa $\sim$595 MB (frente a los $\sim$13 GB de la Lubuntu anterior).
+    \item \textbf{Muy liviana}: la imagen completa pesa $\sim$595 MB.
     \item \textbf{Arranque rápido}: inicia en pocos segundos, incluso sin KVM.
     \item \textbf{Bajo consumo de RAM}: funciona con 512 MB.
     \item \textbf{Sin entorno gráfico}: se opera por terminal, lo que es más representativo de servidores reales y refuerza el manejo de línea de comandos.
@@ -308,7 +356,12 @@ Alpine Linux es una distribución de Linux orientada a la seguridad, la simplici
 El usuario \texttt{elo323} se usa para ejecutar VLC, ya que \textbf{VLC no se ejecuta como root}. Para tareas de captura (\texttt{tcpdump}, \texttt{tshark}) se requieren privilegios de \texttt{root} (use \texttt{su -}).
 \end{nota}
 
-La imagen trae preinstaladas las siguientes herramientas: \texttt{iperf} e \texttt{iperf3} (Pregunta 2), \texttt{vlc}/\texttt{cvlc} (Pregunta 3), \texttt{tcpdump} y \texttt{tshark} (captura y análisis), \texttt{pjsua} (Pregunta 4), además de \texttt{sox}, \texttt{ffmpeg}, \texttt{curl} y \texttt{openssh}. Incluye también los archivos multimedia \texttt{/home/elo323/Videos/sample.mp4} (video para la Pregunta 3) y \texttt{/home/elo323/test\_audio.wav} (audio de voz en español para la Pregunta 4).
+La imagen trae preinstaladas las siguientes herramientas: \texttt{iperf} e \texttt{iperf3} (Pregunta 2), \texttt{vlc}/\texttt{cvlc} (Pregunta 3), \texttt{tcpdump} y \texttt{tshark} (captura y análisis), \texttt{pjsua} (Pregunta 4), además de \texttt{sox}, \texttt{ffmpeg}, \texttt{curl} y \texttt{openssh}. Incluye también los siguientes archivos multimedia:
+
+\begin{itemize}
+    \item \texttt{/home/elo323/Videos/sample.mp4}: video para la Pregunta 3.
+    \item \texttt{/home/elo323/test\_audio.wav}: audio de voz en español para la Pregunta 4.
+\end{itemize}
 
 \subsection{Configuración de red manual}
 
@@ -342,9 +395,9 @@ Cree un nuevo template QEMU en \textit{Edit $>$ Preferences $>$ QEMU VMs $>$ New
 \end{tabular}
 \end{center}
 
-\begin{cambio2026}
+\begin{nota}
 La opción \texttt{-cpu qemu64} es obligatoria si no se dispone de KVM (ver sección \textit{Ejecución sin KVM}).
-\end{cambio2026}
+\end{nota}
 
 % ==================== STREAMING VLC ====================
 \section{Streaming con VLC}
@@ -353,12 +406,10 @@ En la máquina Alpine, VLC se ejecuta en modo consola con el comando \texttt{cvl
 
 \subsection{RTP}
 
-\begin{cambio2026}
-En Lubuntu se usaba el asistente gráfico de VLC. En Alpine se utiliza la línea de comandos. Cambie primero al usuario \texttt{elo323}:
+En Alpine, VLC se utiliza desde la línea de comandos. Cambie primero al usuario \texttt{elo323}:
 \begin{lstlisting}
 su - elo323
 \end{lstlisting}
-\end{cambio2026}
 
 Para \textbf{transmitir} el video por RTP hacia una IP destino (unicast) o de broadcast:
 
@@ -367,13 +418,21 @@ cvlc /home/elo323/Videos/sample.mp4 --loop \
      --sout '#rtp{dst=IP_DESTINO,port=5004,mux=ts}' --sout-keep
 \end{lstlisting}
 
-Para \textbf{recibir} el flujo, en el equipo destino (por ejemplo VLC en su PC personal) abra la ubicación de red:
+Para \textbf{recibir} el flujo en el equipo destino (por ejemplo, su PC personal en la Pregunta 3.c) se necesita un reproductor capaz de abrir un flujo RTP. Dos opciones compatibles, disponibles para Windows, Linux y macOS:
 
+\begin{itemize}
+    \item \textbf{VLC media player} (\href{https://www.videolan.org/vlc/}{videolan.org}): abra \textit{Medio $>$ Abrir ubicación de red} (\textit{Media $>$ Open Network Stream} en inglés, atajo \texttt{Ctrl+N}), ingrese la URL \texttt{rtp://@:5004} y presione \textit{Reproducir}. El símbolo \texttt{@} indica que se escuchan los paquetes que llegan al puerto 5004 en cualquier interfaz del equipo. Equivalentemente, desde una terminal:
 \begin{lstlisting}
-rtp://@:5004
+vlc rtp://@:5004
 \end{lstlisting}
+    \item \textbf{ffplay}, reproductor incluido en \href{https://ffmpeg.org/download.html}{FFmpeg}: desde una terminal ejecute
+\begin{lstlisting}
+ffplay rtp://0.0.0.0:5004
+\end{lstlisting}
+    donde \texttt{0.0.0.0} indica, igual que \texttt{@} en VLC, que se escucha en todas las interfaces.
+\end{itemize}
 
-No es necesario que la transmisión haya comenzado antes de abrir el flujo en el receptor; VLC comenzará a reproducir automáticamente al recibir datos.
+No es necesario que la transmisión haya comenzado antes de abrir el flujo en el receptor; el reproductor comenzará a mostrar el video automáticamente al recibir datos. Recuerde que el firewall del equipo receptor debe permitir el tráfico UDP entrante en el puerto 5004.
 
 \begin{nota}
 Para que Wireshark decodifique los paquetes RTP, habilite \texttt{rtp\_udp} en \textit{Analyze $>$ Enabled Protocols\ldots}
@@ -415,19 +474,17 @@ La medición con \textbf{UDP} (opción \texttt{-u}) y la interpretación de la d
 % ==================== VOIP ====================
 \section{Telefonía VoIP con SIP}
 
-\begin{cambio2026}
-Sección nueva en esta edición. Cubre la configuración del \textbf{router Cisco 3725 como servidor SIP} (Call Manager Express, CME) y el uso del softphone de consola \texttt{pjsua} en la máquina Alpine, para las preguntas 4.a y 4.b.
-\end{cambio2026}
+Esta sección cubre la configuración del \textbf{servidor SIP (Call Manager Express, CME) integrado al router Cisco 3725} y el uso del softphone de consola \texttt{pjsua} en la máquina Alpine, para las preguntas 4.a y 4.b.
 
 \subsection{Conceptos generales}
 
-En una llamada VoIP con SIP intervienen dos planos: la \textbf{señalización SIP} (mensajes \texttt{REGISTER}, \texttt{INVITE}, \texttt{ACK}, \texttt{BYE}, etc., que establecen y terminan la llamada) y el \textbf{flujo de medios RTP} (los paquetes de audio propiamente tales). El router Cisco 3725 actúa como \textbf{registrar/servidor SIP}: los softphones se registran en él con un número de extensión y una contraseña, y a través de él se establecen las llamadas.
+En una llamada VoIP con SIP intervienen dos planos: la \textbf{señalización SIP} (mensajes \texttt{REGISTER}, \texttt{INVITE}, \texttt{ACK}, \texttt{BYE}, etc., que establecen y terminan la llamada) y el \textbf{flujo de medios RTP} (los paquetes de audio propiamente tales). Además de las funciones normales de un router, el modelo Cisco 3725 incluye un servidor SIP (CME), que en esta tarea es el \textbf{registrar/servidor SIP}: los softphones se registran en él con un número de extensión y una contraseña, y a través de él se establecen las llamadas.
 
 \subsection{Preparación del router Cisco 3725}
 
-\begin{cambio2026}
-Recuerde aumentar la \textbf{RAM del router a 256 MB} antes de configurarlo como servidor SIP (ver sección \textit{Incorporación de componentes adicionales}). Con la RAM por defecto (128 MB) el servicio SIP/CME puede fallar por falta de memoria.
-\end{cambio2026}
+\begin{nota}
+Recuerde aumentar la \textbf{RAM del router a 256 MB} antes de configurar su servidor SIP (ver sección \textit{Incorporación de componentes adicionales}). Con la RAM por defecto (128 MB) el servicio SIP/CME puede fallar por falta de memoria.
+\end{nota}
 
 Configure primero las interfaces de red del router según la topología. Por ejemplo, para dos redes internas:
 
@@ -503,11 +560,9 @@ El escenario de la \textbf{Pregunta 4.b} requiere que la señalización SIP y el
 
 \subsection{Softphone pjsua}
 
-\begin{cambio2026}
-Se reemplaza el softphone gráfico Zoiper por \texttt{pjsua}, un cliente SIP de línea de comandos (parte de la librería PJSIP) incluido en la imagen Alpine. Implementa el mismo estándar SIP (RFC 3261), por lo que la señalización observable en la red es equivalente a la de un softphone comercial.
-\end{cambio2026}
+Este año usted usará \texttt{pjsua}, un cliente SIP de línea de comandos (parte de la librería PJSIP) incluido en la imagen Alpine. Implementa el estándar SIP (RFC 3261), por lo que la señalización observable en la red es equivalente a la de un softphone comercial.
 
-Para \textbf{registrar} un softphone en el router y dejarlo a la espera de llamadas (contestando automáticamente y grabando el audio recibido):
+Para \textbf{registrar} un softphone en el servidor SIP del Cisco 3725 y dejarlo a la espera de llamadas (contestando automáticamente y grabando el audio recibido):
 
 \begin{lstlisting}
 pjsua --id="sip:1002@192.168.10.1" \
@@ -559,7 +614,7 @@ El análisis de la \textbf{periodicidad de los paquetes RTP}, la identificación
 Para analizar el audio recibido (Pregunta 4.b), las grabaciones \texttt{.wav} generadas dentro de la máquina Alpine deben copiarse al computador personal. Consulte la sección \textit{QEMU -- Montar imágenes} para el procedimiento de montaje del disco de la máquina y extracción de los archivos.
 
 % ==================== QEMU ====================
-\section{QEMU}
+\section{QEMU (Quick EMUlator)}
 
 QEMU es un emulador de sistemas que permite correr máquinas virtuales de equipos con diferentes arquitecturas. Gracias a esto, GNS3 puede simular una gran variedad de hardware de red.
 
@@ -583,12 +638,12 @@ Para ejecutar una imagen ya instalada asignándole memoria:
 qemu-system-x86_64 -hda imagen.qcow2 -boot c -m <memoria>
 \end{lstlisting}
 
-\begin{cambio2026}
+\begin{nota}
 Si ejecuta una máquina sin KVM disponible, agregue la opción \texttt{-cpu qemu64}:
 \begin{lstlisting}
 qemu-system-x86_64 -cpu qemu64 -m 512 -hda imagen.qcow2 -nographic
 \end{lstlisting}
-\end{cambio2026}
+\end{nota}
 
 \subsection{Montar imágenes}
 
@@ -602,9 +657,9 @@ sudo mount /dev/nbd0p3 /mnt
 
 Esto activa el módulo \texttt{nbd}, conecta la imagen como dispositivo \texttt{nbd0} y monta su partición. Las imágenes de los equipos usados en GNS3 se encuentran en \texttt{project-files/qemu} dentro de la carpeta del proyecto.
 
-\begin{cambio2026}
+\begin{nota}
 En la imagen Alpine, el sistema de archivos raíz está en la \textbf{partición 3} (\texttt{/dev/nbd0p3}), por lo que se monta esa partición (en otras imágenes puede ser \texttt{p1}). Los archivos del usuario están en \texttt{/home/elo323/}.
-\end{cambio2026}
+\end{nota}
 
 Una vez terminado el trabajo con la imagen, desmóntela:
 
@@ -630,17 +685,16 @@ Realice el montaje únicamente con la máquina \textbf{apagada} en GNS3; de lo c
     \textbf{Recurso} & \textbf{Fuente} & \textbf{Tamaño} \\ \hline
     Appliance NETem & \href{https://www.gns3.com/marketplace/appliance/netem}{Link} & 1.7 K \\ \hline
     Imagen NETem & \href{https://github.com/phobozad/NETem/releases/download/v4.1/NETem-v4.1.qcow2}{Link} & 25 M \\ \hline
-    Imagen Alpine ELO323 & [ Pendiente: servidor del curso ] & $\sim$595 M \\ \hline
+    Imagen Alpine ELO323 & \href{https://profesores.elo.utfsm.cl/\string~agv/elo323.ipd438/2s26/Assignment/alpine-elo323-entrega.qcow2.gz}{Link} & $\sim$595 M \\ \hline
     Appliance Cisco 3725 & \href{https://gns3.com/marketplace/appliances/cisco-3725}{Link} & 1.1 K \\ \hline
     Imagen Cisco 3725 & \href{https://archive.org/download/c2691-adventerprisek9-mz.124-15.T14/c3725-adventerprisek9-mz.124-15.T14.bin}{Link} & 44 M \\ \hline
 \end{tabularx}
 \end{center}
 
-\begin{cambio2026}
-La imagen \texttt{alpine-elo323.qcow2} reemplaza a las antiguas imágenes Lubuntu 2024/2025. Se distribuye a través del servidor del curso: \\
-\url{http://profesores.elo.utfsm.cl/~agv/elo323.ipd438/2s25/Assignment/} \\
-\textit{(la ruta y el nombre definitivos del archivo quedan por confirmar con el profesor).}
-\end{cambio2026}
+La imagen \texttt{alpine-elo323.qcow2} se distribuye comprimida a través del servidor del curso: \\
+\url{https://profesores.elo.utfsm.cl/~agv/elo323.ipd438/2s26/Assignment/alpine-elo323-entrega.qcow2.gz}
+
+Antes de importarla en GNS3, descomprima el archivo \texttt{.gz} (por ejemplo, con 7-Zip en Windows o con \texttt{gunzip} en Linux).
 
 % ==================== CRÉDITOS ====================
 \section{Créditos}
